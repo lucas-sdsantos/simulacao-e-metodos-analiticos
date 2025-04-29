@@ -86,3 +86,17 @@ def save_array_to_txt(x, filename):
     """
     with open(filename, 'w') as file:
         file.writelines(f"{value}\n" for value in x)
+
+def denormalize_value(value, min_value, max_value):
+    """
+    Transforms a normalized value (0 to 1) into a specified range.
+
+    Parameters:
+    value (float): A value between 0 and 1 to be transformed.
+    min_value (float): The minimum value of the target range.
+    max_value (float): The maximum value of the target range.
+
+    Returns:
+    float: The value transformed to the range [min_value, max_value].
+    """
+    return min_value + value * (max_value - min_value)
