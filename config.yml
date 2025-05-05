@@ -1,0 +1,41 @@
+# ==========================================================
+#  Configuração da rede de filas – Formato v2
+#  (compatível com simulador_rede_filas_v2.py)
+#
+#  • Cada fila é descrita por:
+#      tipo              →  G/G/s/c   (s = servidores, c = capacidade)
+#      chegada_intervalo →  intervalo uniforme de chegadas (opcional)
+#      servico_intervalo →  intervalo uniforme de serviço   (obrigatório)
+#      destino           →  mapeia fila‑destino → probabilidade (0‑1)
+#                         {}  ⇒   cliente sai do sistema
+# ==========================================================
+
+filas:
+  # ---------- Primeira estação ----------
+  fila1:
+    tipo: "G/G/1"          # 1 servidor, capacidade ilimitada
+    chegada_intervalo:     # clientes chegam de fora
+      minimo: 2.0          # tempo mínimo entre chegadas
+      maximo: 4.0          # tempo máximo entre chegadas
+    servico_intervalo:     # tempo de atendimento
+      minimo: 1.0
+      maximo: 2.0
+    destino:               # roteamento: 100 % → fila2
+      fila2: 1.0
+
+  # ---------- Segunda estação ----------
+  fila2:
+    tipo: "G/G/2/5"        # 2 servidores, capacidade 5
+    servico_intervalo:
+      minimo: 4.0
+      maximo: 8.0
+    destino:               # 100 % → fila3
+      fila3: 1.0
+
+  # ---------- Terceira estação (terminal) ----------
+  fila3:
+    tipo: "G/G/2/10"       # 2 servidores, capacidade 10
+    servico_intervalo:
+      minimo: 5.0
+      maximo: 15.0
+    destino: {}            # sem roteamento adicional (cliente sai)
